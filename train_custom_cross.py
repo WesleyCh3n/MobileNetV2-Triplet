@@ -1,6 +1,6 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  #supress tensorflow info except error
-gpuNum = 1
+gpuNum = 0
 
 import math
 import datetime
@@ -24,17 +24,12 @@ from tensorflow.keras.models import Model
 #  from model.balance_input_fn import dataset_pipeline
 from model.input_fn import dataset_pipeline
 from model.triplet_loss import batch_hard_triplet_loss
-from model.utils import Param
+from model.utils import Param, arg
 
-
-def arg():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("cfg", help="config path", type=str)
-    return parser.parse_args()
 
 
 if __name__ == "__main__":
-    args = arg()
+    args = arg(True)
     config_path = args.cfg
     params = Param(config_path)
 
@@ -91,7 +86,7 @@ if __name__ == "__main__":
                   params.EPOCHS,
                   step,
                   math.ceil(train_count/
-                  (params.NUM_CLASSES_PER_BATCH*params.NUM_IMAGES_PER_CLASS)),
+                  params.BATCH_SIZE),
                   loss.numpy(),
                   float(train_accuracy.result())))
             tf.summary.scalar('loss', loss, step=total_step)

@@ -1,14 +1,22 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import os
 from sklearn import manifold
 import numpy as np
 import matplotlib.pylab as plt
 from mpl_toolkits.mplot3d import Axes3D
+from model.utils import arg, Param
 
 
 if __name__ == '__main__':
-    vecs = np.loadtxt('./experiment/from_soft_to_tl_02/49vecs.tsv', dtype=np.float ,delimiter='\t')
+    args = arg()
+    config_path = args.cfg
+    params = Param(config_path)
+
+    vecs = np.loadtxt(os.path.join(config_path, f"emb/{args.epoch}vecs.tsv"),
+                      dtype=np.float,
+                      delimiter='\t')
     tsne = manifold.TSNE(n_components=3,
                          learning_rate=100,
                          n_iter=350)

@@ -34,9 +34,10 @@ def load_image(filename):
 
     image_string = tf.io.read_file(filename)
     #Don't use tf.image.decode_image, or the output shape will be undefined
-    image = tf.image.decode_jpeg(image_string, channels=3)
+    image = tf.image.decode_jpeg(image_string, channels=3, dct_method='INTEGER_ACCURATE')
     #This will convert to float values in [0, 1]
-    image = tf.image.convert_image_dtype(image, tf.float32)
+    #  image = tf.image.convert_image_dtype(image, tf.float32)
+    image = tf.cast(image, tf.float32)
     image = image / 255.0
     image = image - 0.5
     image = image * 2.0

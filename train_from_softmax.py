@@ -50,7 +50,7 @@ if __name__ == "__main__":
                                activation="softmax", 
                                name="dense_final")(baseModel.output)
     model = Model(inputs=baseModel.input, outputs=fc)
-    #  model.load_weights("./experiment/01_from_soft_to_tl/epoch-00")
+    #  model.load_weights("./experiment/V3cross_imagenet/epoch-10")
 
     preLayer = model.get_layer("global_average_pooling2d")
     fc = tf.keras.layers.Dense(128,
@@ -59,7 +59,7 @@ if __name__ == "__main__":
     l2 = tf.math.l2_normalize(fc)
 
     model = Model(inputs=baseModel.input, outputs=l2)
-    model.load_weights("./experiment/from_soft_to_tl_01/epoch-49")
+    model.load_weights("./experiment/V3from_soft_to_tl_01/epoch-49")
     model.summary()
 
     optimizer = tf.keras.optimizers.Adam(params.LR)
